@@ -53,7 +53,6 @@ export const register = async (req, res) => {
     console.error("Error during registration:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-  console.log("Registration successful!!");
 };
 
 // For Login
