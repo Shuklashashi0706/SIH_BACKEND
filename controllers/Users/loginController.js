@@ -16,7 +16,7 @@ export const register = async (req, res) => {
       phoneNo,
     } = req.body;
     // Check if the email address already exists in the database
-    const existingUser = await UserModel.findOne({ emailAddress }).maxTimeMS(30000);
+    const existingUser = await UserModel.findOne({ emailAddress });
 
     // If an existing user is found, respond with a "User already exists" message
     if (existingUser) {
@@ -66,7 +66,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
     // Find the user by email address in the database
-    const user = await UserModel.findOne({ emailAddress }).maxTimeMS(30000);
+    const user = await UserModel.findOne({ emailAddress });
     // Check if a user with the provided email exists
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -105,7 +105,7 @@ export const getUserById = async (req, res) => {
   try {
     const userId = req.params.id; // Get the user ID from the URL parameter
     // Find the user by ID in the database
-    const user = await UserModel.findById(userId).maxTimeMS(30000);
+    const user = await UserModel.findById(userId);
     if (!user) {
       // If no user with the provided ID is found, send a 404 response
       return res.status(404).json({ message: "User not found" });
@@ -120,7 +120,7 @@ export const getUserById = async (req, res) => {
 export const deleteAllUsers = async (req, res) => {
   try {
     // Delete all users from the database
-    const result = await UserModel.deleteMany({}).maxTimeMS(30000);
+    const result = await UserModel.deleteMany({});
     // Check the result to see if any users were deleted
     if (result.deletedCount === 0) {
       // No users were deleted
@@ -138,7 +138,7 @@ export const deleteUserById = async (req, res) => {
   try {
     const userId = req.params.id; // Get the user ID from the URL parameter
     // Find and delete the user by ID in the database
-    const deletedUser = await UserModel.findByIdAndDelete(userId).maxTimeMS(30000);
+    const deletedUser = await UserModel.findByIdAndDelete(userId);
     if (!deletedUser) {
       // If no user with the provided ID is found, send a 404 response
       return res.status(404).json({ message: "User not found" });
