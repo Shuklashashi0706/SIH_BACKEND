@@ -4,7 +4,7 @@ config({
   path:"./data/config.env"
 })
 //connecting database
-export const connectDB = () => {
+export const connectDB = async () => {
   mongoose
     .connect(process.env.MONGOLAB_URI)
     .then((c) => console.log(`Database Connected with ${c.connection.host}`))
