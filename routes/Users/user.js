@@ -1,6 +1,7 @@
 //js
 import express from "express";
-import  {register,login,getAllUsers, deleteAllUsers, getUserById, deleteUserById} from "../../controllers/Users/loginController.js";
+import  {register,getLawyerByCaseDomain,login,getAllUsers,getAllLawyers, deleteAllUsers, getUserById, deleteUserById,getLawyerByLocation} from "../../controllers/Users/loginController.js";
+
 
 const router = express.Router();
 // router.get("/register", registerView);
@@ -13,5 +14,8 @@ router.get("/getAllUsers", getAllUsers);
 router.get("/getUserById/:id", getUserById);
 router.delete("/deleteAllUsers", deleteAllUsers);
 router.delete("/deleteUserById/:id", deleteUserById);
+router.get("/getAllLawyers",getAllLawyers);
+router.get("/getLawyerByLocation",getLawyerByLocation);
+router.get("/getLawyerByCaseDomain",getLawyerByCaseDomain);
 
 export default router ;

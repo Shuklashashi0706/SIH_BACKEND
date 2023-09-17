@@ -12,7 +12,7 @@ const lawyerSchema = new mongoose.Schema({
   emailAddress: {
     type: String,
     required: true,
-    unique:true
+    unique: true,
   },
   password: {
     type: String,
@@ -49,4 +49,4 @@ const lawyerSchema = new mongoose.Schema({
   },
 });
 
-export default lawyerSchema;
+export const LawyerModel = mongoose.model("Lawyer", lawyerSchema);

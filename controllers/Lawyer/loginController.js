@@ -1,9 +1,7 @@
 //For Register
-import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import LawyerSchema from "../../models/lawyer/lawyer.js";
+import { LawyerModel } from "../../models/lawyer/lawyer.js";
 
-const LawyerModel = mongoose.model("Lawyer", LawyerSchema);
 
 export const register = async (req, res) => {
   try {
