@@ -15,8 +15,8 @@ export const register = async (req, res) => {
       accountType,
       phoneNo,
     } = req.body;
-    // Check if the email address already exists in the database
-    const existingUser = await UserModel.findOne({ emailAddress });
+    // // Check if the email address already exists in the database
+    let existingUser = await UserModel.findOne({ emailAddress });
 
     // If an existing user is found, respond with a "User already exists" message
     if (existingUser) {
@@ -43,7 +43,7 @@ export const register = async (req, res) => {
       password: hashedPassword,
       accountType,
       phoneNo,
-    }).maxTimeMS(30000);
+    });
 
     // Return a success response with the created user data
     return res
