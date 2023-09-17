@@ -5,54 +5,54 @@ import UserSchema from "../../models/Users/user.js";
 
 const UserModel = mongoose.model("User", UserSchema);
 export const register = async (req, res) => {
-  // try {
-  //   // Destructure user data from the request body
-  //   const {
-  //     firstName,
-  //     lastName,
-  //     emailAddress,
-  //     password,
-  //     accountType,
-  //     phoneNo,
-  //   } = req.body;
-  //   // // Check if the email address already exists in the database
-  //   let existingUser = await UserModel.findOne({ emailAddress });
+  try {
+    // Destructure user data from the request body
+    const {
+      firstName,
+      lastName,
+      emailAddress,
+      password,
+      accountType,
+      phoneNo,
+    } = req.body;
+    // // Check if the email address already exists in the database
+    let existingUser = await UserModel.findOne({ emailAddress });
 
-  //   // If an existing user is found, respond with a "User already exists" message
-  //   if (existingUser) {
-  //     return res.status(400).json({ message: "User already exists" });
-  //   }
-  //   // Validate user data (you can add more validation here)
-  //   if (
-  //     !firstName ||
-  //     !lastName ||
-  //     !emailAddress ||
-  //     !password ||
-  //     !accountType ||
-  //     !phoneNo
-  //   ) {
-  //     return res.status(400).json({ message: "All fields are required" });
-  //   }
-  //   // Hash the password
-  //   const hashedPassword = bcrypt.hashSync(password, 10);
-  //   // Create a new user document and store it in the database
-  //   const newUser = await UserModel.create({
-  //     firstName,
-  //     lastName,
-  //     emailAddress,
-  //     password: hashedPassword,
-  //     accountType,
-  //     phoneNo,
-  //   });
+    // If an existing user is found, respond with a "User already exists" message
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+    // Validate user data (you can add more validation here)
+    if (
+      !firstName ||
+      !lastName ||
+      !emailAddress ||
+      !password ||
+      !accountType ||
+      !phoneNo
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+    // Hash the password
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    // Create a new user document and store it in the database
+    const newUser = await UserModel.create({
+      firstName,
+      lastName,
+      emailAddress,
+      password: hashedPassword,
+      accountType,
+      phoneNo,
+    });
 
-  //   // Return a success response with the created user data
-  //   return res
-  //     .status(200)
-  //     .json({ message: "Registration successful", user: newUser });
-  // } catch (error) {
-  //   console.error("Error during registration:", error);
-  //   return res.status(500).json({ message: "Internal Server Error" });
-  // }
+    // Return a success response with the created user data
+    return res
+      .status(200)
+      .json({ message: "Registration successful", user: newUser });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
   console.log("Registration successful!!");
 };
 
