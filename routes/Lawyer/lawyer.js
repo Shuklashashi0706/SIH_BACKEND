@@ -4,15 +4,17 @@ import {
   register,
   login,
   getAllLawyers,
+  addProfile,
   getLawyerById,
   deleteAllLawyers,
   deleteLawyerById,
 } from "../../controllers/Lawyer/loginController.js";
-import { acceptRequest, getAllRequests,deleteRequest,deleteAllRequests } from "../../controllers/Lawyer/acceptRequestController.js";
+import { acceptRequest,getAllRequests,deleteRequest,deleteAllRequests } from "../../controllers/Lawyer/acceptRequestController.js";
 const router = express.Router();
 //register and login
 router.post("/register", register);
 router.post("/login", login);
+router.post("/addProfile",addProfile);
 router.get("/getAllLawyers", getAllLawyers);
 router.get("/getLawyerById/:id", getLawyerById);
 router.delete("/deleteAllLawyers", deleteAllLawyers);

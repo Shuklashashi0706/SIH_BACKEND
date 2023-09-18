@@ -2,7 +2,6 @@
 import bcrypt from "bcryptjs";
 import { LawyerModel } from "../../models/lawyer/lawyer.js";
 
-
 export const register = async (req, res) => {
   try {
     // Destructure user data from the request body
@@ -98,6 +97,31 @@ export const login = async (req, res) => {
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const addProfile = async (req, res) => {
+  try {
+    const {lawyerId ,bio, achievements, qualifications } = req.body;
+    // Find the lawyer by their ID
+    const lawyer = await LawyerModel.findById(lawyerId);
+
+    if (!lawyer) {
+      return res.status(404).json({ error: "Lawyer not found" });
+    }
+
+    // Update the lawyer's profile with the provided information
+    lawyer.bio = bio;
+    lawyer.achievements = achievements;
+    lawyer.qualifications = qualifications;
+
+    // Save the updated lawyer profile
+    await lawyer.save();
+
+    res.status(200).json({ message: "Profile updated successfully" });
+  } catch (error) {
+    console.error("Error while updating lawyer profile:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
