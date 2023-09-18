@@ -1,4 +1,3 @@
-//js
 import express from "express";
 import  {register,login,getAllUsers, deleteAllUsers, getUserById, deleteUserById} from "../../controllers/Users/loginController.js";
 import { getAllLawyers,getLawyerByCaseDomain,getLawyerByLocation } from "../../controllers/Users/searchLawyerController.js";
@@ -15,8 +14,8 @@ router.delete("/deleteUserById/:id", deleteUserById);
 
 // search
 router.get("/getAllLawyers",getAllLawyers);
-router.get("/getLawyerByLocation",getLawyerByLocation);
-router.get("/getLawyerByCaseDomain",getLawyerByCaseDomain);
+router.post("/getLawyerByLocation",getLawyerByLocation);
+router.post("/getLawyerByCaseDomain",getLawyerByCaseDomain);
 
 //send Request
 router.post("/sendRequest",sendRequest);
