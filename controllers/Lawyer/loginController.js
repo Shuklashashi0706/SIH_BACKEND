@@ -102,7 +102,7 @@ export const login = async (req, res) => {
 
 export const addProfile = async (req, res) => {
   try {
-    const {lawyerId ,bio, achievements, qualifications } = req.body;
+    const { lawyerId, bio, achievements, qualifications } = req.body;
     // Find the lawyer by their ID
     const lawyer = await LawyerModel.findById(lawyerId);
 
