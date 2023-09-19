@@ -1,6 +1,6 @@
 import express from "express";
 import  {register,login,getAllUsers, deleteAllUsers, getUserById, deleteUserById} from "../../controllers/Users/loginController.js";
-import { getAllLawyers,getLawyerByCaseDomain,getCaseDomain,getLocation,getLawyerByLocation } from "../../controllers/Users/searchLawyerController.js";
+import { getAllLawyers,getLawyerByCaseDomain,getCaseDomain,getLocation,getLawyerByLocation, getLawyerById } from "../../controllers/Users/searchLawyerController.js";
 import { sendRequest } from "../../controllers/Users/sendRequestController.js";
 const router = express.Router();
 
@@ -14,6 +14,7 @@ router.delete("/deleteUserById/:id", deleteUserById);
 
 // search
 router.get("/getAllLawyers",getAllLawyers);
+router.post("/getLawyerById",getLawyerById);
 router.post("/getLawyerByLocation",getLawyerByLocation);
 router.post("/getLawyerByCaseDomain",getLawyerByCaseDomain);
 router.get("/getCaseDomain",getCaseDomain);
