@@ -77,19 +77,19 @@ export const login = async (req, res) => {
     }
 
     // Find the user by email address in the database
-    const user = await LawyerModel.findOne({ emailAddress });
+    const lawyer = await LawyerModel.findOne({ emailAddress });
 
     // Check if a user with the provided email exists
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    if (!lawyer) {
+      return res.status(404).json({ message: "Lawyer not found" });
     }
 
     // Compare the provided password with the stored hashed password
-    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    const isPasswordValid = bcrypt.compareSync(password, lawyer.password);
 
     if (isPasswordValid) {
       // Password is correct, send a success response
-      return res.status(200).json({ message: "Login successful", user });
+      return res.status(200).json({ message: "Login successful", lawyer });
     } else {
       // Password is incorrect, send an error response
       return res.status(401).json({ message: "Incorrect password" });
