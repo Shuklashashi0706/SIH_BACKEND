@@ -20,7 +20,7 @@ export const getAllLawyers = async (req, res) => {
     // }));
 
     // Send the list of lawyers with a success message
-    return res.status(200).json({ message: "Successful", lawyers});
+    return res.status(200).json({ message: "Successful", lawyers });
   } catch (error) {
     console.error("Error while fetching lawyers:", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -76,6 +76,48 @@ export const getLawyerByCaseDomain = async (req, res) => {
     });
   } catch (error) {
     console.error("Error while fetching lawyers by case domain:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const getCaseDomain = async (req, res) => {
+  try {
+    // Fetch all lawyers from the database
+    const lawyers = await LawyerModel.find();
+    if (lawyers.length === 0) {
+      // No lawyers found in the database
+      return res.status(404).json({ message: "No lawyers found" });
+    }
+    // Extract unique case domains from the lawyers
+    const uniqueCaseDomains = [
+      ...new Set(lawyers.map((lawyer) => lawyer.caseDomain)),
+    ];
+
+    res.status(200).json({ caseDomains: uniqueCaseDomains });
+  } catch (error) {
+    console.error("Error while fetching case domains:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const getLocation = async (req, res) => {
+  try {
+    // Fetch all lawyers from the database
+    const lawyers = await LawyerModel.find();
+
+    if (lawyers.length === 0) {
+      // No lawyers found in the database
+      return res.status(404).json({ message: "No lawyers found" });
+    }
+
+    // Extract unique locations from the lawyers
+    const uniqueLocations = [
+      ...new Set(lawyers.map((lawyer) => lawyer.location)),
+    ];
+
+    res.status(200).json({ locations: uniqueLocations });
+  } catch (error) {
+    console.error("Error while fetching locations:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
