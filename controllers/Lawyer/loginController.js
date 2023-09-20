@@ -118,10 +118,28 @@ export const addProfile = async (req, res) => {
     // Save the updated lawyer profile
     await lawyer.save();
 
-    res.status(200).json({ message: "Profile updated successfully",lawyer });
+    res.status(200).json({ message: "Profile updated successfully", lawyer });
   } catch (error) {
     console.error("Error while updating lawyer profile:", error);
     return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getProfile = async (req, res) => {
+  try {
+    const { lawyerId } = req.params;
+    console.log(lawyerId);
+    // Find the lawyer by their ID
+    const lawyer = await LawyerModel.findById(lawyerId);
+
+    if (!lawyer) {
+      return res.status(404).json({ message: "Lawyer not found" });
+    }
+
+    res.status(200).json({ lawyer });
+  } catch (error) {
+    console.error("Error while fetching lawyer profile:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

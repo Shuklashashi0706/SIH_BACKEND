@@ -53,6 +53,35 @@ export const acceptRequest = async (req, res) => {
   }
 };
 
+export const getAcceptedRequests = async (req, res) => {
+  try {
+    // Find all accepted notifications
+    const acceptedNotifications = await NotificationModel.find({
+      acceptStatus: true,
+    });
+
+    if (acceptedNotifications.length === 0) {
+      // No accepted notifications found
+      return res
+        .status(404)
+        .json({ message: "No accepted notifications found" });
+    }
+
+    // Extract user IDs from accepted notifications
+    const userIds = acceptedNotifications.map(
+      (notification) => notification.userid
+    );
+
+    // Find the corresponding users from the User model
+    const acceptedUsers = await UserModel.find({ _id: { $in: userIds } });
+
+    res.status(200).json({ acceptedUsers });
+  } catch (error) {
+    console.error("Error while fetching accepted requests:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export const deleteRequest = async (req, res) => {
   try {
     const { notificationId } = req.body;
@@ -76,22 +105,22 @@ export const deleteRequest = async (req, res) => {
 };
 
 export const deleteAllRequests = async (req, res) => {
-    try {
-      // Check if there are any notifications
-      const count = await NotificationModel.countDocuments();
-  
-      if (count === 0) {
-        return res.status(404).json({ message: "No notifications found" });
-      }
-  
-      // Delete all notifications from the Notification model
-      await NotificationModel.deleteMany({});
-  
-      res.status(200).json({ message: "All requests are deleted" });
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ error: "An error occurred while processing your request" });
+  try {
+    // Check if there are any notifications
+    const count = await NotificationModel.countDocuments();
+
+    if (count === 0) {
+      return res.status(404).json({ message: "No notifications found" });
     }
-  };
+
+    // Delete all notifications from the Notification model
+    await NotificationModel.deleteMany({});
+
+    res.status(200).json({ message: "All requests are deleted" });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while processing your request" });
+  }
+};
