@@ -118,7 +118,7 @@ export const addProfile = async (req, res) => {
     // Save the updated lawyer profile
     await lawyer.save();
 
-    res.status(200).json({ message: "Profile updated successfully" });
+    res.status(200).json({ message: "Profile updated successfully",lawyer });
   } catch (error) {
     console.error("Error while updating lawyer profile:", error);
     return res.status(500).json({ error: "Internal Server Error" });
