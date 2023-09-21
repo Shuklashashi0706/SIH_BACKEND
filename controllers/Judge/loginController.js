@@ -21,7 +21,7 @@ export const register = async (req, res) => {
 
     // If an existing user is found, respond with a "User already exists" message
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "Judge already exists" });
     }
 
     // Validate user data (you can add more validation here)
@@ -60,7 +60,7 @@ export const register = async (req, res) => {
     // Return a success response with the created Judge data
     return res
       .status(200)
-      .json({ message: "Registration successful", user: newJudge });
+      .json({ message: "Registration successful", Judge: newJudge });
   } catch (error) {
     console.error("Error during registration:", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -78,19 +78,19 @@ export const login = async (req, res) => {
     }
 
     // Find the user by email address in the database
-    const lawyer = await JudgeModel.findOne({ emailAddress });
+    const Judge = await JudgeModel.findOne({ emailAddress });
 
     // Check if a user with the provided email exists
-    if (!lawyer) {
-      return res.status(404).json({ message: "Lawyer not found" });
+    if (!Judge) {
+      return res.status(404).json({ message: "Judge not found" });
     }
 
     // Compare the provided password with the stored hashed password
-    const isPasswordValid = bcrypt.compareSync(password, lawyer.password);
+    const isPasswordValid = bcrypt.compareSync(password, Judge.password);
 
     if (isPasswordValid) {
       // Password is correct, send a success response
-      return res.status(200).json({ message: "Login successful", lawyer });
+      return res.status(200).json({ message: "Login successful", Judge });
     } else {
       // Password is incorrect, send an error response
       return res.status(401).json({ message: "Incorrect password" });
