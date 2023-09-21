@@ -102,7 +102,9 @@ export const login = async (req, res) => {
 
 export const addProfile = async (req, res) => {
   try {
-    const { lawyerId, bio, achievements, qualifications } = req.body;
+    const { lawyerId, bio, achievements, qualifications, profileImage } =
+      req.body;
+
     // Find the lawyer by their ID
     const lawyer = await LawyerModel.findById(lawyerId);
 
@@ -114,6 +116,7 @@ export const addProfile = async (req, res) => {
     lawyer.bio = bio;
     lawyer.achievements = achievements;
     lawyer.qualifications = qualifications;
+    lawyer.profileImage = profileImage; // Add the profile image URL or file path here
 
     // Save the updated lawyer profile
     await lawyer.save();

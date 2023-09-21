@@ -1,7 +1,7 @@
 import express from "express";
 import  {register,login,getAllUsers, deleteAllUsers, getUserById, deleteUserById} from "../../controllers/Users/loginController.js";
 import { getAllLawyers,getLawyerByCaseDomain,getCaseDomain,getLocation,getLawyerByLocation, getLawyerById } from "../../controllers/Users/searchLawyerController.js";
-import { sendRequest } from "../../controllers/Users/sendRequestController.js";
+import { getAcceptedRequests, sendRequest } from "../../controllers/Users/sendRequestController.js";
 const router = express.Router();
 
 // Register and login 
@@ -22,5 +22,6 @@ router.get("/getLocation",getLocation);
 
 //send Request
 router.post("/sendRequest",sendRequest);
+router.get("/getAcceptedRequests/:userId",getAcceptedRequests);
 
 export default router ;
