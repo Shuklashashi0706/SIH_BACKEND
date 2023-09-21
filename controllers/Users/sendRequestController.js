@@ -25,6 +25,41 @@ export const sendRequest = async (req, res) => {
   }
 };
 
+export const getAllRequests = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Find notifications where the lawyer ID matches
+    const requests = await NotificationModel.find({ userid: userId });
+
+    if (requests.length === 0) {
+      // No requests found for the lawyer
+      return res.status(404).json({ message: "No requests found" });
+    }
+
+    // Extract user IDs from the requests
+    const lawyerIds = requests.map(
+      (notification) => notification.lawyerid
+    );
+
+    // Find the corresponding users from the User model
+    const lawyers = await LawyerModel.find({ _id: { $in: lawyerIds } });
+
+    if (lawyers.length === 0) {
+      // No users found for the requests (unexpected scenario)
+      return res
+        .status(404)
+        .json({ message: "No lawyers found for the requests" });
+    }
+
+    // Return the users associated with the requests
+    res.status(200).json({ lawyers });
+  } catch (error) {
+    console.error("Error while fetching requests:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export const getAcceptedRequests = async (req, res) => {
   try {
     const { userId } = req.params; // Assuming you get the user ID from request parameters

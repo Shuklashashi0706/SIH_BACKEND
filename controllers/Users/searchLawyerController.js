@@ -32,6 +32,29 @@ export const getLawyerById = async (req, res) => {
   }
 };
 
+export const getLawyerByName = async (req, res) => {
+  try {
+    const { firstName, lastName } = req.body; // Assuming you receive the lawyer's first name and last name
+
+    // Find a lawyer by first name and last name
+    const lawyer = await LawyerModel.findOne({
+      firstName,
+      lastName,
+    });
+
+    if (!lawyer) {
+      // No lawyer found with the provided name
+      return res.status(404).json({ message: "Lawyer not found" });
+    }
+
+    // Return the lawyer's profile as a response
+    res.status(200).json({ lawyer });
+  } catch (error) {
+    console.error("Error while searching for lawyer by name:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export const getLawyerByLocation = async (req, res) => {
   try {
     const { location } = req.body;
