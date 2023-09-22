@@ -12,7 +12,7 @@ export const getAllRequests = async (req, res) => {
 
     if (acceptedNotifications.length === 0) {
       // No accepted notifications found for the lawyer
-      return res.status(404).json({ message: 'No accepted notifications found' });
+      return res.status(404).json({ message: 'No requests found' });
     }
 
     // Extract user IDs from accepted notifications
@@ -23,7 +23,7 @@ export const getAllRequests = async (req, res) => {
 
     if (acceptedUsers.length === 0) {
       // No users found with acceptStatus true
-      return res.status(404).json({ message: 'No accepted users found' });
+      return res.status(404).json({ message: 'No users requests found' });
     }
 
     // Create an array to store the results with notification IDs, status, and lawyer ID

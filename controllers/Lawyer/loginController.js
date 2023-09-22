@@ -131,7 +131,6 @@ export const addProfile = async (req, res) => {
 export const getProfile = async (req, res) => {
   try {
     const { lawyerId } = req.params;
-    console.log(lawyerId);
     // Find the lawyer by their ID
     const lawyer = await LawyerModel.findById(lawyerId);
 

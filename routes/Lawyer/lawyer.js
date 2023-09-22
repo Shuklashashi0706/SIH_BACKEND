@@ -1,4 +1,3 @@
-//js
 import express from "express";
 import {
   register,
@@ -22,10 +21,14 @@ router.get("/getLawyerById/:id", getLawyerById);
 router.delete("/deleteAllLawyers", deleteAllLawyers);
 router.delete("/deleteLawyerById/:id", deleteLawyerById);
 
-// notifications
+// requests
 router.get("/getAllRequests/:lawyerId", getAllRequests);
 router.get("/getAcceptedRequests/:lawyerId", getAcceptedRequests);
 router.patch("/acceptRequest/:lawyerId",acceptRequest)
 router.delete("/deleteRequest",deleteRequest)
 router.delete("/deleteAllRequest",deleteAllRequests)
+
+//notification
+router.post("/sendNotification/:lawyerId",)
+
 export default router;
