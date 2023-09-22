@@ -10,6 +10,7 @@ import {
   getProfile,
 } from "../../controllers/Lawyer/loginController.js";
 import { acceptRequest,getAllRequests,deleteRequest,deleteAllRequests, getAcceptedRequests } from "../../controllers/Lawyer/acceptRequestController.js";
+import { sendNotification } from "../../controllers/Lawyer/sendNotification.js";
 const router = express.Router();
 //register and login
 router.post("/register", register);
@@ -29,6 +30,6 @@ router.delete("/deleteRequest",deleteRequest)
 router.delete("/deleteAllRequest",deleteAllRequests)
 
 //notification
-router.post("/sendNotification/:lawyerId",)
+router.post("/sendNotification/:lawyerId",sendNotification)
 
 export default router;
