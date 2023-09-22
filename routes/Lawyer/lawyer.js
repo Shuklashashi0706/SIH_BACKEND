@@ -25,7 +25,7 @@ router.delete("/deleteLawyerById/:id", deleteLawyerById);
 // notifications
 router.get("/getAllRequests/:lawyerId", getAllRequests);
 router.get("/getAcceptedRequests/:lawyerId", getAcceptedRequests);
-router.patch("/acceptRequest",acceptRequest)
+router.patch("/acceptRequest/:lawyerId",acceptRequest)
 router.delete("/deleteRequest",deleteRequest)
 router.delete("/deleteAllRequest",deleteAllRequests)
 export default router;
