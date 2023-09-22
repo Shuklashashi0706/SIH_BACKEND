@@ -3,28 +3,37 @@ import { UserModel } from "../../models/Users/user.js";
 
 export const getAllRequests = async (req, res) => {
   try {
-    // Retrieve all notifications from the Notification database
-    const notifications = await NotificationModel.find();
-    // Create an array to store the details of users who sent requests
-    const userRequests = [];
-    // Iterate through each notification
-    for (const notification of notifications) {
-      // Find the user details corresponding to the userid in the notification
-      const user = await UserModel.findById(notification.userid);
-      // If a user is found, add their details to the userRequests array
-      if (user) {
-        userRequests.push({
-          user: user,
-          notification: notification,
-        });
-      }
+    const { lawyerId } = req.params;
+
+    // Find accepted notifications for the given lawyer
+    const acceptedNotifications = await NotificationModel.find({
+      lawyerid: lawyerId
+    });
+
+    if (acceptedNotifications.length === 0) {
+      // No accepted notifications found for the lawyer
+      return res
+        .status(404)
+        .json({ message: "No accepted notifications found" });
     }
-    res.status(200).json(userRequests);
+
+    // Extract user IDs from accepted notifications
+    const userIds = acceptedNotifications.map(
+      (notification) => notification.userid
+    );
+
+    // Find the corresponding users from the User model
+    const acceptedUsers = await UserModel.find({ _id: { $in: userIds } });
+
+    if (acceptedUsers.length === 0) {
+      // No users found with acceptStatus true
+      return res.status(404).json({ message: "No accepted users found" });
+    }
+
+    res.status(200).json({ acceptedUsers });
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while fetching requests" });
+    console.error("Error while fetching accepted requests:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -65,11 +74,15 @@ export const getAcceptedRequests = async (req, res) => {
 
     if (acceptedNotifications.length === 0) {
       // No accepted notifications found for the lawyer
-      return res.status(404).json({ message: "No accepted notifications found" });
+      return res
+        .status(404)
+        .json({ message: "No accepted notifications found" });
     }
 
     // Extract user IDs from accepted notifications
-    const userIds = acceptedNotifications.map((notification) => notification.userid);
+    const userIds = acceptedNotifications.map(
+      (notification) => notification.userid
+    );
 
     // Find the corresponding users from the User model
     const acceptedUsers = await UserModel.find({ _id: { $in: userIds } });
@@ -85,7 +98,6 @@ export const getAcceptedRequests = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 export const deleteRequest = async (req, res) => {
   try {

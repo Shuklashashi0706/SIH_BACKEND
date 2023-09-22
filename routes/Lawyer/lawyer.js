@@ -23,7 +23,7 @@ router.delete("/deleteAllLawyers", deleteAllLawyers);
 router.delete("/deleteLawyerById/:id", deleteLawyerById);
 
 // notifications
-router.get("/getAllRequests", getAllRequests);
+router.get("/getAllRequests/:lawyerId", getAllRequests);
 router.get("/getAcceptedRequests/:lawyerId", getAcceptedRequests);
 router.patch("/acceptRequest",acceptRequest)
 router.delete("/deleteRequest",deleteRequest)
