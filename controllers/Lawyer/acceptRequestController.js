@@ -7,33 +7,35 @@ export const getAllRequests = async (req, res) => {
 
     // Find accepted notifications for the given lawyer
     const acceptedNotifications = await NotificationModel.find({
-      lawyerid: lawyerId
+      lawyerid: lawyerId,
     });
 
     if (acceptedNotifications.length === 0) {
       // No accepted notifications found for the lawyer
-      return res
-        .status(404)
-        .json({ message: "No accepted notifications found" });
+      return res.status(404).json({ message: 'No accepted notifications found' });
     }
 
     // Extract user IDs from accepted notifications
-    const userIds = acceptedNotifications.map(
-      (notification) => notification.userid
-    );
+    const userIds = acceptedNotifications.map((notification) => notification.userid);
 
     // Find the corresponding users from the User model
     const acceptedUsers = await UserModel.find({ _id: { $in: userIds } });
 
     if (acceptedUsers.length === 0) {
       // No users found with acceptStatus true
-      return res.status(404).json({ message: "No accepted users found" });
+      return res.status(404).json({ message: 'No accepted users found' });
     }
 
-    res.status(200).json({ acceptedUsers });
+    // Create an array to store the results with notification IDs
+    const results = acceptedNotifications.map((notification) => ({
+      notificationId: notification._id,
+      user: acceptedUsers.find((user) => user._id.equals(notification.userid)),
+    }));
+
+    res.status(200).json({ acceptedRequests: results });
   } catch (error) {
-    console.error("Error while fetching accepted requests:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    console.error('Error while fetching accepted requests:', error);
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
