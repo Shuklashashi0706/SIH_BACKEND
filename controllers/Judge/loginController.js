@@ -100,3 +100,108 @@ export const login = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const getAllJudges = async (req, res) => {
+  try {
+    // Find all judges from the Judge model
+    const judges = await JudgeModel.find();
+    if (judges.length === 0) {
+      // No judges found in the database
+      return res.status(404).json({ message: "No judges found" });
+    }
+    // Return the list of judges as a response
+    res.status(200).json({ judges });
+  } catch (error) {
+    console.error("Error while fetching judges:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const getJudgeById = async (req, res) => {
+  try {
+    const { judgeId } = req.params; // Assuming you receive the judge's ID from request parameters
+    // Find the judge by their ID
+    const judge = await JudgeModel.findById(judgeId);
+    if (!judge) {
+      // No judge found with the provided ID
+      return res.status(404).json({ message: "Judge not found" });
+    }
+    // Return the judge's profile as a response
+    res.status(200).json({ judge });
+  } catch (error) {
+    console.error("Error while fetching judge by ID:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const addProfile = async (req, res) => {
+  try {
+    const { judgeId } = req.params;
+    const { profileImage, bio } = req.body; // Assuming you receive judgeId, profileImage, and bio in the request body
+    // Find the judge by their ID
+    const judge = await JudgeModel.findById(judgeId);
+    if (!judge) {
+      // No judge found with the provided ID
+      return res.status(404).json({ message: "Judge not found" });
+    }
+    // Update the judge's profile with the provided information
+    judge.profileImage = profileImage;
+    judge.bio = bio;
+
+    // Save the updated judge profile
+    await judge.save();
+
+    // Return a success response with the updated judge data
+    res.status(200).json({ message: "Profile updated successfully", judge });
+  } catch (error) {
+    console.error("Error while updating judge profile:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const getProfile = async (req, res) => {
+  try {
+    const { judgeId } = req.params; // Assuming you receive the judge's ID from request parameters
+    // Find the judge by their ID
+    const judge = await JudgeModel.findById(judgeId);
+    if (!judge) {
+      // No judge found with the provided ID
+      return res.status(404).json({ message: "Judge not found" });
+    }
+    // Return the judge's profile as a response
+    res.status(200).json({ judge });
+  } catch (error) {
+    console.error("Error while fetching judge profile:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const deleteJudgeById = async (req, res) => {
+  try {
+    const { judgeId } = req.params; // Assuming you receive the judge's ID from request parameters
+    // Find the judge by their ID and delete them
+    const deletedJudge = await JudgeModel.findByIdAndDelete(judgeId);
+    if (!deletedJudge) {
+      // No judge found with the provided ID
+      return res.status(404).json({ message: 'Judge not found' });
+    }
+    // Return a success response with a message
+    res.status(200).json({ message: 'Judge deleted successfully' });
+  } catch (error) {
+    console.error('Error while deleting judge by ID:', error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+export const deleteAllJudges = async (req, res) => {
+  try {
+    // Delete all judges from the Judge model
+    await JudgeModel.deleteMany({});
+
+    // Return a success response with a message
+    res.status(200).json({ message: 'All judges deleted successfully' });
+  } catch (error) {
+    console.error('Error while deleting all judges:', error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};

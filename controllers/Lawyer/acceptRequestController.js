@@ -32,7 +32,7 @@ export const getAllRequests = async (req, res) => {
       user: acceptedUsers.find((user) => user._id.equals(notification.userid)),
     }));
 
-    res.status(200).json({ acceptedRequests: results });
+    res.status(200).json({ Requests: results });
   } catch (error) {
     console.error('Error while fetching accepted requests:', error);
     return res.status(500).json({ message: 'Internal Server Error' });

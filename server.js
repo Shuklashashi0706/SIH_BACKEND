@@ -4,6 +4,7 @@ import { connectDB } from "./data/database.js";
 import UserRouter from "./routes/Users/user.js";
 import JudgeRouter from "./routes/Judge/judge.js"
 import LawyerRouter from "./routes/Lawyer/lawyer.js"
+import SuperAdminRouter from "./routes/superAdmin/superAdmin.js"
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,6 +22,7 @@ app.use(cors());
 app.use("/api/user", UserRouter);
 app.use("/api/judge", JudgeRouter);
 app.use("/api/lawyer", LawyerRouter);
+app.use("/api/superadmin", SuperAdminRouter);
 
 app.get("/", (req, res) => {
   res.send("Hi");
