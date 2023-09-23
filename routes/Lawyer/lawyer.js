@@ -32,4 +32,7 @@ router.delete("/deleteAllRequest",deleteAllRequests)
 //notification
 router.post("/sendNotification/:lawyerId",sendNotification)
 
+//upload doc 
+// router.post("/uploadDoc/:lawyerId",uploadDoc);
+
 export default router;
